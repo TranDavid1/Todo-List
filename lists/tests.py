@@ -16,11 +16,18 @@ class HomePageTest(TestCase):
         # checking that resolve, with "/", the root of the site, finds a function called home_page
         self.assertEqual(found.func, home_page)
 
-    def test_home_page_returns_correct_html(self):
+    def test_uses_home_template(self):
         # instead of creating HttpRequest object manually, we call self.client.get, and then
         # pass in the url we want to test
         response = self.client.get('/')
 
         # test method from Django TestCase that checks what template was used to render
         # a response
+        self.assertTemplateUsed(response, 'home.html')
+
+    def test_can_save_a_POST_request(self):
+        response = self.client.post('/', data={'item_text': 'A new list item'})
+        # check that the text from POST request is in the rendered HTML
+        self.assertIn('A new list item', response.content.decode())
+        # check whether we're still using the template
         self.assertTemplateUsed(response, 'home.html')
