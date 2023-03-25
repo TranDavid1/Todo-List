@@ -48,10 +48,11 @@ class NewVisitorTest(unittest.TestCase):
         # before making assertion
         time.sleep(1)
 
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')
+        table = self.browser.find_element(By.ID, 'id_list_table')
+        rows = table.find_elements(By.TAG_NAME, 'tr')
         self.assertTrue(
-            any(row.text == '1: Study for quiz' for row in rows)
+            any(row.text == '1: Study for quiz' for row in rows),
+            "New to-do item did not appear in table"
         )
 
         # There should still be a text box to enter another item
