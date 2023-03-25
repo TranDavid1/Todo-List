@@ -17,6 +17,11 @@ class NewVisitorTest(unittest.TestCase):
     def tearDown(self):
         self.browser.quit()
 
+    def check_for_row_in_list_table(self, row_text):
+        table = self.browser.find_element(By.ID, 'id_list_table')
+        rows = table.find_elements(By.TAG_NAME, 'tr')
+        self.assertIn(row_text, [row.text for row in rows])
+
     # test method, run by test runner
     def test_can_start_a_list_and_retrieve_it(self):
         # Home page
@@ -47,10 +52,7 @@ class NewVisitorTest(unittest.TestCase):
         # time.sleep is to make sure the browser finishes loading
         # before making assertion
         time.sleep(1)
-
-        table = self.browser.find_element(By.ID, 'id_list_table')
-        rows = table.find_elements(By.TAG_NAME, 'tr')
-        self.assertIn('1: Study for quiz', [row.text for row in rows])
+        self.check_for_row_in_list_table('1: Study for quiz')
 
         # There should still be a text box to enter another item
         inputbox = self.browser.find_element(By.ID, 'id_new_item')
@@ -59,14 +61,8 @@ class NewVisitorTest(unittest.TestCase):
         time.sleep(1)
 
         # Page should update again, and should show 2 items
-        table = self.browser.find_element(By.ID, 'id_list_table')
-        rows = table.find_element(By.TAG_NAME, 'tr')
-        self.assertIn('1. Study for quiz', [row.text for row in rows])
-        self.assertIn(
-            '2: Study for the final exam',
-            [row.text for row in rows]
-        )
-
+        self.check_for_row_in_list_table('1: Study for quiz')
+        self.check_for_row_in_list_table('2: Study for the final exam')
         # Site should generate a unique URL, with explanatory text
         self.fail('Finish the test!')
 
