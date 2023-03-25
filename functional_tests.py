@@ -50,22 +50,30 @@ class NewVisitorTest(unittest.TestCase):
 
         table = self.browser.find_element(By.ID, 'id_list_table')
         rows = table.find_elements(By.TAG_NAME, 'tr')
-        self.assertTrue(
-            any(row.text == '1: Study for quiz' for row in rows),
-            "New to-do item did not appear in table"
-        )
+        self.assertIn('1: Study for quiz', [row.text for row in rows])
 
         # There should still be a text box to enter another item
+        inputbox = self.browser.find_element(By.ID, 'id_new_item')
+        inputbox.send_keys('Study for the final exam')
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(1)
+
+        # Page should update again, and should show 2 items
+        table = self.browser.find_element(By.ID, 'id_list_table')
+        rows = table.find_element(By.TAG_NAME, 'tr')
+        self.assertIn('1. Study for quiz', [row.text for row in rows])
+        self.assertIn(
+            '2: Study for the final exam',
+            [row.text for row in rows]
+        )
+
+        # Site should generate a unique URL, with explanatory text
         self.fail('Finish the test!')
+
+        # Upon visiting the URL, the to-do list with 2 items should still be there
 
 
 if __name__ == '__main__':
     unittest.main()
-
-# Page should update again, and should show 2 items
-
-# Site should generate a unique URL, with explanatory text
-
-# Upon visiting the URL, the to-do list with 2 items should still be there
 
 # browser.quit()
