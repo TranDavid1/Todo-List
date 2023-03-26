@@ -1,4 +1,5 @@
 # start selenium webdriver to create Firefox browser window
+from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -6,7 +7,7 @@ import time
 import unittest
 
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
 
     # start browser before/after each test
     def setUp(self):
@@ -25,7 +26,7 @@ class NewVisitorTest(unittest.TestCase):
     # test method, run by test runner
     def test_can_start_a_list_and_retrieve_it(self):
         # Home page
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
 
         # Page title and header mention to-do lists
         self.assertIn('To-Do', self.browser.title)
