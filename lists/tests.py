@@ -28,10 +28,43 @@ class HomePageTest(TestCase):
 
     def test_can_save_a_POST_request(self):
         response = self.client.post('/', data={'item_text': 'A new list item'})
+
+        # check that one new Item has been saved in the database
+        self.assertEqual(Item.objects.count(), 1)
+        # objects.first() is same as objects.all()[0]
+        new_item = Item.objects.first()
+        # check that the text is correct
+        self.assertEqual(new_item.text, 'A new list item')
+
         # check that the text from POST request is in the rendered HTML
         self.assertIn('A new list item', response.content.decode())
         # check whether we're still using the template
         self.assertTemplateUsed(response, 'home.html')
+
+    def test_can_save_a_POST_request(self):
+        self.client.post('/', data={'item_text': 'A new list item'})
+
+        self.assertEqual(Item.objects.count(), 1)
+        new_item = Item.objects.first()
+        self.assertEqual(new_item.text, 'A new list item')
+
+    def test_redirects_after_POST(self):
+        response = self.client.post('/', data={'item_text': 'A new list item'})
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'], '/')
+
+    def test_only_saves_items_when_necessary(self):
+        self.client.get('/')
+        self.assertEqual(Item.objects.count(), 0)
+
+    def test_displays_all_list_items(self):
+        Item.objects.create(text='itemey 1')
+        Item.objects.create(text='itemey 2')
+
+        response = self.client.get('/')
+
+        self.assertIn('itemey 1', response.content.decode())
+        self.assertIn('itemey 2', response.content.decode())
 
 
 class ItemModelTest(TestCase):
