@@ -1,0 +1,8 @@
+To run the functional tests:
+    python manage.py test functional_tests
+
+To run the unit tests:
+    python manage.py test lists
+
+To start the server:
+    python manage.py runserver

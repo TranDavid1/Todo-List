@@ -107,8 +107,8 @@ class NewVisitorTest(LiveServerTestCase):
 
         # start a new list by entering a new item
         inputbox = self.browser.find_element(By.ID, 'id_new_item')
-        input.send_keys('Buy milk from store')
-        input.send_keys(Keys.ENTER)
+        inputbox.send_keys('Buy milk from store')
+        inputbox.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table('1. Buy milk from store')
 
         # check that URL is unique
