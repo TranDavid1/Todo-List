@@ -6,3 +6,5 @@ To run the unit tests:
 
 To start the server:
     python manage.py runserver
+
+BOOKMARK: ch07l036-2
