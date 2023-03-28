@@ -90,13 +90,14 @@ class ListAndItemModelsTest(TestCase):
 
 
 class NewItemTest(TestCase):
+
     def test_can_save_a_POST_request_to_an_existing_list(self):
         other_list = List.objects.create()
         correct_list = List.objects.create()
 
         self.client.post(
             f'/lists/{correct_list.id}/add_item',
-            data={'item_test': 'A new item for an existing list'}
+            data={'item_text': 'A new item for an existing list'}
         )
 
         self.assertEqual(Item.objects.count(), 1)
@@ -109,7 +110,7 @@ class NewItemTest(TestCase):
         correct_list = List.objects.create()
 
         response = self.client.post(
-            f'/lists/{correct_list.id}/ add_item',
+            f'/lists/{correct_list.id}/add_item',
             data={'item_text': 'A new item for an existing list'}
         )
 
