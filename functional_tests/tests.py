@@ -35,6 +35,21 @@ class NewVisitorTest(LiveServerTestCase):
                     raise e
                 time.sleep(0.5)
 
+    # check that main input box is aligned properly
+    def test_layout_and_styling(self):
+        # home page
+        self.browser.get(self.live_server_url)
+        self.browser.set_window_size(1024, 768)
+
+        # input box centered
+        inputbox = self.browser.find_element(By.ID, 'id_new_item')
+        # assertAlmostEqual to deal with rounding errors
+        self.assertAlmostEqual(
+            inputbox.location['x'] + inputbox.size['width'] / 2,
+            512,
+            delta=10
+        )
+
     # test method, run by test runner
     def test_can_start_a_list_for_one_user(self):
         # Home page

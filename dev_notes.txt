@@ -7,6 +7,10 @@ To run the unit tests:
 To start the server:
     python manage.py runserver
 
+For database error "table lists_item has no column named list_id"
+    update local database to reflect changes in models.py:
+        manage.py migrate
+
 BOOKMARK: ch07l036-2
 
 Chapter 7 to-do list:
