@@ -36,6 +36,7 @@ class NewVisitorTest(LiveServerTestCase):
                 time.sleep(0.5)
 
     # check that main input box is aligned properly
+
     def test_layout_and_styling(self):
         # home page
         self.browser.get(self.live_server_url)
@@ -44,6 +45,17 @@ class NewVisitorTest(LiveServerTestCase):
         # input box centered
         inputbox = self.browser.find_element(By.ID, 'id_new_item')
         # assertAlmostEqual to deal with rounding errors
+        self.assertAlmostEqual(
+            inputbox.location['x'] + inputbox.size['width'] / 2,
+            512,
+            delta=10
+        )
+
+        # second inputbox should also be centered
+        inputbox.send_keys('testing')
+        inputbox.send_keys(Keys.ENTER)
+        self.wait_for_row_in_list_table('1: testing')
+        inputbox = self.browser.find_element(By.ID, 'id_new_item')
         self.assertAlmostEqual(
             inputbox.location['x'] + inputbox.size['width'] / 2,
             512,
