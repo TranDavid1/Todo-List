@@ -12,20 +12,22 @@
     <body>
         <div class="container">
 
-            <div class="row">
+            <div class="row justify-content-center">
+                {% comment %} excluding jumbotron component because it's deprecated {% endcomment %}
                 <div class="col-md-6 col-md-offset-3">
-                    <div class="text-center">
+                    {% comment %} <div class="text-center"> {% endcomment %}
                         <h1>{% block header_text %}{% endblock %}</h1>
                         <form method="POST" action="{% block form_action %}{% endblock %}">
                             <input
                                 name="item_text"
                                 id="id_new_item"
+                                class="form-control input-lg"
                                 placeholder="Enter a to-do item"
                             />
                             {% csrf_token %}
                         </form>
 
-                    </div>
+                    {% comment %} </div> {% endcomment %}
                 </div>
             </div>
 
@@ -38,5 +40,5 @@
 
         </div>
     </body>
-    
+
 </html>
