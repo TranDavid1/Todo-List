@@ -11,7 +11,7 @@ For database error "table lists_item has no column named list_id"
     update local database to reflect changes in models.py:
         manage.py migrate
 
-BOOKMARK: ch08l007
+BOOKMARK: ch08l018
 
 Chapter 7 to-do list:
 - Adjust model so that items are associated with different lists
