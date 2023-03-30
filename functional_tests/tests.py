@@ -7,6 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import WebDriverException
 import time
 import unittest
+import os
 
 # max time we're prepared to wait
 MAX_WAIT = 10
@@ -17,6 +18,11 @@ class NewVisitorTest(StaticLiveServerTestCase):
     # start browser before/after each test
     def setUp(self):
         self.browser = webdriver.Firefox()
+        # env variable called STAGING_SERVER
+        staging_server = os.environ.get('STAGING_SERVER')
+        if staging_server:
+            # replace with address of real server
+            self.live_server_url = 'http://' + staging_server
 
     # stop browser before/after each test, tearDown should run even if there's an error
     # in the test itself
