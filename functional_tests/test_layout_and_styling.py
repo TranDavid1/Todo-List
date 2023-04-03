@@ -4,9 +4,6 @@ from selenium.webdriver.common.keys import Keys
 from .base import FunctionalTest
 from selenium.webdriver.common.by import By
 
-# max time we're prepared to wait
-MAX_WAIT = 10
-
 class LayoutAndStylingTest(FunctionalTest):
         def test_layout_and_styling(self):
             # home page
