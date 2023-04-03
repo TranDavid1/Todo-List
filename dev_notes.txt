@@ -12,3 +12,8 @@ For database error "table lists_item has no column named list_id"
         manage.py migrate
 
 BOOKMARK: ch11l020
+
+Chapter 13 To-do List:
+    Remove hardcoded URLs from views.py
+    
+    Remove hardcoded URL from forms in list.html and home.html
