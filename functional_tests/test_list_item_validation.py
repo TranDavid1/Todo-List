@@ -4,12 +4,40 @@
 from selenium.webdriver.common.keys import Keys
 from unittest import skip
 from .base import FunctionalTest
-
-# max time we're prepared to wait
-MAX_WAIT = 10
+from selenium.webdriver.common.by import By
 
 class ItemValidationTest(FunctionalTest):
     def test_cannot_add_empty_list_items(self):
-        self.fail("write me!")
+        # user goes to homepage and attempts to submit empty
+        # list item
+        self.browser.get(self.live_server_url)
+        self.browser.find_element(By.ID, 'id_new_item').send_keys(Keys.ENTER)
+        
+        # home page refreshes, and there is an error message saying
+        # that items in list cannot be blank
+        self.wait_for(lambda: self.assertEqual(  
+            # use CSS class .has-error to mark error text
+            self.browser.find_elements(By.CSS_SELECTOR, '.has-error').text,
+            "You can't have an empty item in a list"
+        ))
 
-# browser.quit()
+        # try again with text for the item
+        self.browser.find_element(By.ID, 'id_new_item').send_keys('Buy milk')
+        self.browser.find_element(By.ID, 'id_new_item').send_keys(Keys.Enter)
+        self.wait_for_row_in_list_table('1: Buy milk')
+
+        # try to submit a second blank item into list
+        self.browser.find_element(By.ID, 'id_new_item').send_keys(Keys.ENTER)
+
+        # send the same warning
+        self.wait_for(lambda: self.assertEqual(  
+            # use CSS class .has-error to mark error text
+            self.browser.find_elements(By.CSS_SELECTOR, '.has-error').text,
+            "You can't have an empty item in a list"
+        ))
+
+        # correctly fill in text into item
+        self.browser.find_element(By.ID, 'id_new_item').send_keys('Make tea')
+        self.browser.find_element(By.ID, 'id_new_item').send_keys(Keys.Enter)
+        self.wait_for_row_in_list_table('1: Buy milk')
+        self.wait_for_row_in_list_table('1: Make tea')

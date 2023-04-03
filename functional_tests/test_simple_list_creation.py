@@ -6,9 +6,6 @@ from selenium.webdriver.common.by import By
 from .base import FunctionalTest
 import time
 
-# max time we're prepared to wait
-MAX_WAIT = 10
-
 class NewVisitorTest(FunctionalTest):
     # test method, run by test runner
     def test_can_start_a_list_for_one_user(self):
