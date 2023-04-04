@@ -42,4 +42,6 @@ class ListAndItemModelsTest(TestCase):
         item = Item(list=list_, text='')
         with self.assertRaises(ValidationError):
             item.save()
+            # Django models don't run full validation on save,
+            # full_clean() performs that manually
             item.full_clean()
