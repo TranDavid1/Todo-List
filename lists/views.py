@@ -11,7 +11,6 @@ def home_page(request):
         return redirect('/lists/the-only-list-in-the-world/')
     return render(request, 'home.html')
 
-
 def view_list(request, list_id):
     list_ = List.objects.get(id=list_id)
     error = None
@@ -23,7 +22,9 @@ def view_list(request, list_id):
             item.save()
             return redirect(f'/lists/{list_.id}/')
         except ValidationError:
+            item.delete()
             error = "You can't have an empty list item"
+
     return render(request, 'list.html', {'list': list_, 'error': error})
 
 

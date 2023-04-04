@@ -37,9 +37,9 @@ class FunctionalTest(StaticLiveServerTestCase):
 
     def wait_for(self, fn):
         start_time = time.time()
-        
         while True:
             try:
+                # call to function that's passed in
                 return fn()
             except (AssertionError, WebDriverException) as e:
                 if time.time() - start_time > MAX_WAIT:
