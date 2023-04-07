@@ -15,21 +15,33 @@ class ItemValidationTest(FunctionalTest):
         
         # home page refreshes, and there is an error message saying
         # that items in list cannot be blank
-        self.wait_for(lambda: self.assertEqual(  
+        self.wait_for(lambda: 
             # use CSS class .has-error to mark error text
             # self.browser.find_elements(By.CSS_SELECTOR, '.has-error').text,
-            len(self.browser.find_elements(By.CSS_SELECTOR, '.has-error')),
-            1,
-            "You can't have an empty item in a list"
-        ))
+            # "You can't have an empty item in a list"
+            self.browser.find_element(
+                By.CSS_SELECTOR, '#id_text:invalid'
+            )
+        )
 
         # try again with text for the item
         self.get_item_input_box().send_keys('Buy milk')
+        self.wait_for(lambda: self.browser.find_element(
+            By.CSS_SELECTOR, '#id_text:valid'
+        ))
+        
+        # successful submission
         self.get_item_input_box().send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table('1: Buy milk')
 
         # try to submit a second blank item into list
-        # self.browser.find_element(By.ID, 'id_new_item').send_keys(Keys.ENTER)
+        self.get_item_input_box().send_keys(Keys.ENTER)
+
+        # browser will not allow
+        self.wait_for_row_in_list_table('1: Buy milk')
+        self.wait_for(lambda: self.browser.find_element(
+            By.CSS_SELECTOR, '#id_text:invalid'
+        ))
 
         # send the same warning
         # self.wait_for(lambda: self.assertEqual(  
@@ -41,6 +53,9 @@ class ItemValidationTest(FunctionalTest):
 
         # correctly fill in text into item
         self.get_item_input_box().send_keys('Make tea')
+        self.wait_for(lambda: self.browser.find_element(
+            By.CSS_SELECTOR, '#id_text:valid'
+        ))
         self.get_item_input_box().send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table('1: Buy milk')
         self.wait_for_row_in_list_table('2: Make tea')
