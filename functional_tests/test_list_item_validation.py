@@ -91,7 +91,7 @@ class ItemValidationTest(FunctionalTest):
 
         self.wait_for(lambda: self.assertTrue(
             # is_displayed() tells you if element is visible or not
-            self.get_error_element.is_displayed()
+            self.get_error_element().is_displayed()
         ))
 
         # start typing into input box to clear error
@@ -99,5 +99,5 @@ class ItemValidationTest(FunctionalTest):
 
         # error message dissapears
         self.wait_for(lambda: self.assertFalse(
-            self.get_error_element.is_displayed()
+            self.get_error_element().is_displayed()
         ))
