@@ -19,3 +19,12 @@ Chapter 13 To-do List:
     Remove hardcoded URL from forms in list.html and home.html
 
     Remove duplication of validation logic in views
+
+Chapter 18 To-do List:
+    How to send emails
+    
+    Generating and recognizing unique tokens
+
+    How to authenticate someone in Django
+
+    What steps will the user have to go through?
