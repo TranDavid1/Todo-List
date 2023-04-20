@@ -14,12 +14,13 @@ def send_login_email(request):
     # print(type(send_mail))
     send_mail(
         'Your login link for Superlists', 
-        'body text tbc',
+        'Use this link to log in',
         'noreply@superlists', 
         [email]
     )
-    messages.success(
+    messages.add_message(
         request,
+        messages.SUCCESS,
         "Check your email, we've sent you a link you can use to log in."
     )
     # uid = str(uuid.uuid4())
