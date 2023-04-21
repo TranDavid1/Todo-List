@@ -20,27 +20,14 @@ def send_login_email(request):
     message_body = f'Use this link to log in:\n\n{url}'
     send_mail(
         'Your login link for Superlists', 
-        'Use this link to log in',
+        message_body,
         'noreply@superlists', 
         [email]
     )
-    messages.add_message(
+    messages.success(
         request,
-        messages.SUCCESS,
         "Check your email, we've sent you a link you can use to log in."
     )
-    # uid = str(uuid.uuid4())
-    # Token.objects.create(email=email, uid=uid)
-    # # ListUser.objects.create(email=email)
-    # print('saving uid', uid, 'for email', email, file=sys.stderr)
-    # url = request.build_absolute_uri(f'/accounts/login?uid={uid}')
-    # send_mail(
-    #     'Your login link for Superlists',
-    #     f'Use this link to log in:\n\n{url}',
-    #     'noreply@superlists',
-    #     [email],
-    # )
-    # return render(request, 'login_email_sent.html')
     return redirect('/')
 
 def login(request):
