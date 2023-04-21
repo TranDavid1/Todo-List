@@ -5,9 +5,7 @@ import accounts.views
 class SendLoginEmailViewTest(TestCase):
 
     def test_redirects_to_home_page(self):
-        response = self.client.post('/accounts/send_login_email', data={
-            'email': 'john@example.com'
-        })
+        response = self.client.post('/accounts/login?=token=abcd123')
         self.assertRedirects(response, '/')
 
     # patch decorator is equivalent of replacing send_mail in accounts.views
