@@ -38,7 +38,7 @@ def send_login_email(request):
     return redirect('/')
 
 def login(request):
-    pass
+    return redirect('/')
 #     print('login view', file=sys.stderr)
 #     uid = request.GET.get('uid')
 #     print("uid:",uid)
