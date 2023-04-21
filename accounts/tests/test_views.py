@@ -76,3 +76,14 @@ class LoginViewTest(TestCase):
             # instead of unpacking args, use call function for neater way of calling
             call(uid='abcd123')
         )
+
+    @patch('accounts.views.auth')
+    def test_calls_auth_login_with_user_if_there_is_one(self, mock_auth):
+        response = self.client.get('/accounts/login?token=abcd123')
+        self.assertEqual(
+            # check call args for auth.login function
+            mock_auth.login.call_args,
+            # check that it's called with the request object that view sees,
+            # and the user object that authenticate function returns
+            call(response.wsgi_request, mock_auth.authenticate.return_value)
+        )
