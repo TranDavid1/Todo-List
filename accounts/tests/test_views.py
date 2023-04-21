@@ -1,12 +1,14 @@
 from django.test import TestCase
-from unittest.mock import patch
+from unittest.mock import patch, call
 from accounts.models import Token
-import accounts.views
+# import accounts.views
 
 class SendLoginEmailViewTest(TestCase):
 
     def test_redirects_to_home_page(self):
-        response = self.client.post('/accounts/login?=token=abcd123')
+        response = self.client.post('/accounts/send_login_email', data={
+            'email': 'john@example.com'
+        })
         self.assertRedirects(response, '/')
 
     # patch decorator is equivalent of replacing send_mail in accounts.views
@@ -57,3 +59,20 @@ class SendLoginEmailViewTest(TestCase):
         expected_url = f'http://testserver/accounts/login?token={token.uid}'
         (subject, body, from_email, to_list), kwargs = mock_send_mail.call_args
         self.assertIn(expected_url, body)
+
+class LoginViewTest(TestCase):
+
+    def test_redirects_to_home_page(self):
+        response = self.client.get('/accounts/login?token=abcd123')
+        self.assertRedirects(response, '/')
+
+    # mock auth modules in views.py
+    @patch('accounts.views.auth')
+    def test_calls_authenticate_with_uid_from_get_request(self, mock_auth):
+        self.client.get('/accounts/login?token=abcd123')
+        self.assertEqual(
+            # mock out module rather than a function
+            mock_auth.authenticate.call_args,
+            # instead of unpacking args, use call function for neater way of calling
+            call(uid='abcd123')
+        )
