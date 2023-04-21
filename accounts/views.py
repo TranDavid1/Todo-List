@@ -37,7 +37,8 @@ def login(request):
     # if user is not None:
     #     auth.login(request, user)
     user = auth.authenticate(uid=request.GET.get('token'))
-    auth.login(request, user)
+    if user:
+        auth.login(request, user)
     return redirect('/')
 #     print('login view', file=sys.stderr)
 #     uid = request.GET.get('uid')
