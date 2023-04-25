@@ -1,10 +1,11 @@
-import uuid
-import sys
+# import uuid
+# import sys
+import os
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.contrib import messages, auth
-from django.contrib.auth import authenticate
-from django.contrib.auth import login as auth_login, logout as auth_logout
+# from django.contrib.auth import authenticate
+# from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.urls import reverse
 # from accounts.models import Token, ListUser
 from accounts.models import Token
@@ -36,7 +37,13 @@ def login(request):
     # user = auth.authenticate(uid=uid)
     # if user is not None:
     #     auth.login(request, user)
-    user = auth.authenticate(uid=request.GET.get('token'))
+    # print("all tokens: ", Token.objects.all())
+    # print("token: ", Token.objects.get(uid=request.GET.get('token')))
+    # print("uid:", request.GET.get('token'))
+    token = Token.objects.get(uid=request.GET.get('token'))
+    # user = auth.authenticate(uid=request.GET.get('token'))
+    user = auth.authenticate(request=request, email=token.email)
+    # print('user:', user)
     if user:
         auth.login(request, user)
     return redirect('/')
